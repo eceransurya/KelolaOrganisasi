@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Manajemen Inventaris</title>
+    <link rel="stylesheet" href="../assets/css/inventaris.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>📦 Sistem Inventaris</h1>
+                </div>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="#dashboard" class="nav-link active">Dashboard</a></li>
+                        <li><a href="#inventaris" class="nav-link">Inventaris</a></li>
+                        <li><a href="#peminjaman" class="nav-link">Peminjaman</a></li>
+                        <li><a href="#laporan" class="nav-link">Laporan</a></li>
+                        <li><a href="#pengaturan" class="nav-link">Pengaturan</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <div class="main-content">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Menu Utama</h3>
+                        <ul class="sidebar-menu">
+                            <li><a href="#dashboard" class="sidebar-link active">📊 Dashboard</a></li>
+                            <li><a href="#inventaris" class="sidebar-link">📦 Data Inventaris</a></li>
+                            <li><a href="#kategori" class="sidebar-link">🏷️ Kategori Barang</a></li>
+                            <li><a href="#peminjaman" class="sidebar-link">🔄 Peminjaman</a></li>
+                            <li><a href="#pengembalian" class="sidebar-link">⏱️ Pengembalian</a></li>
+                            <li><a href="#laporan" class="sidebar-link">📋 Laporan</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Filter Data</h3>
+                        <div class="filter-group">
+                            <label for="filter-kategori" class="filter-label">Kategori</label>
+                            <select id="filter-kategori" class="filter-select">
+                                <option value="">Semua Kategori</option>
+                                <option value="elektronik">Elektronik</option>
+                                <option value="furnitur">Furnitur</option>
+                                <option value="alat-tulis">Alat Tulis</option>
+                                <option value="kendaraan">Kendaraan</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="filter-kondisi" class="filter-label">Kondisi</label>
+                            <select id="filter-kondisi" class="filter-select">
+                                <option value="">Semua Kondisi</option>
+                                <option value="baik">Baik</option>
+                                <option value="rusak">Rusak</option>
+                                <option value="hilang">Hilang</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="filter-lokasi" class="filter-label">Lokasi</label>
+                            <select id="filter-lokasi" class="filter-select">
+                                <option value="">Semua Lokasi</option>
+                                <option value="gudang-a">Gudang A</option>
+                                <option value="gudang-b">Gudang B</option>
+                                <option value="ruang-kantor">Ruang Kantor</option>
+                            </select>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Content Area -->
+                <section class="content">
+                    <!-- Page Header -->
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h2>Data Inventaris</h2>
+                            <p>Kelola semua barang inventaris perusahaan</p>
+                        </div>
+                        <div class="page-actions">
+                            <button class="btn btn-primary" id="btn-export">
+                                📄 Export Data
+                            </button>
+                            <button class="btn btn-success" id="btn-tambah">
+                                ➕ Tambah Barang
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Statistics Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card card-primary">
+                            <div class="stat-icon">📦</div>
+                            <div class="stat-info">
+                                <h3>142</h3>
+                                <p>Total Barang</p>
+                            </div>
+                        </div>
+                        <div class="stat-card card-success">
+                            <div class="stat-icon">✅</div>
+                            <div class="stat-info">
+                                <h3>118</h3>
+                                <p>Barang Baik</p>
+                            </div>
+                        </div>
+                        <div class="stat-card card-warning">
+                            <div class="stat-icon">⚠️</div>
+                            <div class="stat-info">
+                                <h3>18</h3>
+                                <p>Barang Rusak</p>
+                            </div>
+                        </div>
+                        <div class="stat-card card-danger">
+                            <div class="stat-icon">❌</div>
+                            <div class="stat-info">
+                                <h3>6</h3>
+                                <p>Barang Hilang</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inventory Table -->
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nama Barang</th>
+                                    <th>Kategori</th>
+                                    <th>Jumlah Total</th>
+                                    <th>Tersedia</th>
+                                    <th>Kondisi</th>
+                                    <th>Lokasi</th>
+                                    <th>Tanggal Masuk</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>INV001</td>
+                                    <td>Laptop Dell XPS 13</td>
+                                    <td>Elektronik</td>
+                                    <td>15</td>
+                                    <td>8</td>
+                                    <td><span class="status-badge status-success">Baik</span></td>
+                                    <td>Gudang A</td>
+                                    <td>2024-01-15</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn-icon btn-edit" title="Edit">
+                                                ✏️
+                                            </button>
+                                            <button class="btn-icon btn-delete" title="Hapus">
+                                                🗑️
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>INV002</td>
+                                    <td>Meja Kerja Executive</td>
+                                    <td>Furnitur</td>
+                                    <td>25</td>
+                                    <td>12</td>
+                                    <td><span class="status-badge status-warning">Rusak</span></td>
+                                    <td>Ruang B</td>
+                                    <td>2024-01-10</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn-icon btn-edit" title="Edit">
+                                                ✏️
+                                            </button>
+                                            <button class="btn-icon btn-delete" title="Hapus">
+                                                🗑️
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>INV003</td>
+                                    <td>Proyektor Epson</td>
+                                    <td>Elektronik</td>
+                                    <td>8</td>
+                                    <td>3</td>
+                                    <td><span class="status-badge status-danger">Hilang</span></td>
+                                    <td>Gudang C</td>
+                                    <td>2024-01-08</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn-icon btn-edit" title="Edit">
+                                                ✏️
+                                            </button>
+                                            <button class="btn-icon btn-delete" title="Hapus">
+                                                🗑️
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>INV004</td>
+                                    <td>Kursi Kantor Ergonomis</td>
+                                    <td>Furnitur</td>
+                                    <td>40</td>
+                                    <td>25</td>
+                                    <td><span class="status-badge status-success">Baik</span></td>
+                                    <td>Gudang A</td>
+                                    <td>2024-01-05</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="btn-icon btn-edit" title="Edit">
+                                                ✏️
+                                            </button>
+                                            <button class="btn-icon btn-delete" title="Hapus">
+                                                🗑️
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination">
+                        <button class="pagination-btn" disabled>‹ Prev</button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                        <button class="pagination-btn">3</button>
+                        <button class="pagination-btn">Next ›</button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Sistem Manajemen Inventaris. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Modal Form -->
+    <div id="modal-barang" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Tambah Barang Inventaris</h3>
+                <button class="modal-close" id="btn-tutup">×</button>
+            </div>
+            <form id="form-barang" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nama_barang" class="form-label">Nama Barang *</label>
+                        <input type="text" id="nama_barang" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="kategori_id" class="form-label">Kategori *</label>
+                        <select id="kategori_id" class="form-select" required>
+                            <option value="">Pilih Kategori</option>
+                            <option value="1">Elektronik</option>
+                            <option value="2">Furnitur</option>
+                            <option value="3">Alat Tulis</option>
+                            <option value="4">Kendaraan</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="jumlah_total" class="form-label">Jumlah Total *</label>
+                        <input type="number" id="jumlah_total" class="form-input" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jumlah_tersedia" class="form-label">Jumlah Tersedia *</label>
+                        <input type="number" id="jumlah_tersedia" class="form-input" min="0" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="kondisi" class="form-label">Kondisi *</label>
+                        <select id="kondisi" class="form-select" required>
+                            <option value="">Pilih Kondisi</option>
+                            <option value="baik">Baik</option>
+                            <option value="rusak">Rusak</option>
+                            <option value="hilang">Hilang</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="lokasi" class="form-label">Lokasi *</label>
+                        <input type="text" id="lokasi" class="form-input" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="tanggal_masuk" class="form-label">Tanggal Masuk *</label>
+                    <input type="date" id="tanggal_masuk" class="form-input" required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="btn-batal">Batal</button>
+                    <button type="submit" class="btn btn-success">Simpan Barang</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/inventaris.js"></script>
+</body>
+</html>
