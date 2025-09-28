@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Anggota</title>
+    
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .status-badge {
+            font-size: 0.85rem;
+            padding: 0.4rem 0.8rem;
+        }
+        
+        .btn-action {
+            padding: 0.25rem 0.5rem;
+            margin: 0 0.2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .table-responsive {
+            border-radius: 0.5rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        }
+        
+        .card {
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        }
+        
+        .modal-header {
+            background-color: #4e73df;
+            color: white;
+        }
+        
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+        
+        .filter-section {
+            background-color: #f8f9fc;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Manajemen Anggota</h1>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#anggotaModal" onclick="resetForm()">
+                <i class="fas fa-plus"></i> Tambah Anggota
+            </button>
+        </div>
+        
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label for="searchInput" class="form-label">Pencarian</label>
+                    <input type="text" class="form-control" id="searchInput" placeholder="Cari nama, email, atau no HP...">
+                </div>
+                <div class="col-md-3">
+                    <label for="statusFilter" class="form-label">Filter Status</label>
+                    <select class="form-select" id="statusFilter">
+                        <option value="">Semua Status</option>
+                        <option value="aktif">Aktif</option>
+                        <option value="nonaktif">Nonaktif</option>
+                    </select>
+                </div>
+                <div class="col-md-3 align-self-end">
+                    <button class="btn btn-secondary w-100" onclick="applyFilters()">
+                        <i class="fas fa-filter"></i> Terapkan Filter
+                    </button>
+                </div>
+                <div class="col-md-2 align-self-end">
+                    <button class="btn btn-outline-secondary w-100" onclick="resetFilters()">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Table -->
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="anggotaTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>No. HP</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data akan diisi oleh JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Form -->
+    <div class="modal fade" id="anggotaModal" tabindex="-1" aria-labelledby="anggotaModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="anggotaModalLabel">Tambah Anggota</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="anggotaForm">
+                        <input type="hidden" id="anggotaId">
+                        
+                        <div class="form-group">
+                            <label for="nama" class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="nama" required>
+                            <div class="invalid-feedback">Nama harus diisi</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" required>
+                            <div class="invalid-feedback">Format email tidak valid atau sudah digunakan</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="noHp" class="form-label">No. HP</label>
+                            <input type="tel" class="form-control" id="noHp" required>
+                            <div class="invalid-feedback">Format nomor HP tidak valid</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" id="status" required>
+                                <option value="aktif">Aktif</option>
+                                <option value="nonaktif">Nonaktif</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" onclick="saveAnggota()">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Apakah Anda yakin ingin menghapus anggota ini?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Hapus</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    
+    <script>
+        // Sample data
+        let anggotaData = [
+            { id: 1, nama: "Budi Santoso", email: "budi@example.com", noHp: "08123456789", status: "aktif" },
+            { id: 2, nama: "Siti Aminah", email: "siti@example.com", noHp: "08234567890", status: "aktif" },
+            { id: 3, nama: "Ahmad Fauzi", email: "ahmad@example.com", noHp: "08345678901", status: "nonaktif" },
+            { id: 4, nama: "Dewi Lestari", email: "dewi@example.com", noHp: "08456789012", status: "aktif" },
+            { id: 5, nama: "Eko Prasetyo", email: "eko@example.com", noHp: "08567890123", status: "nonaktif" }
+        ];
+        
+        let table;
+        let deleteId = null;
+        
+        $(document).ready(function() {
+            // Initialize DataTable
+            table = $('#anggotaTable').DataTable({
+                responsive: true,
+                language: {
+                    url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/id.json"
+                },
+                data: anggotaData,
+                columns: [
+                    { data: "id" },
+                    { data: "nama" },
+                    { data: "email" },
+                    { data: "noHp" },
+                    { 
+                        data: "status",
+                        render: function(data) {
+                            return data === 'aktif' 
+                                ? '<span class="badge bg-success status-badge">Aktif</span>' 
+                                : '<span class="badge bg-danger status-badge">Nonaktif</span>';
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function(data, type, row) {
+                            return `
+                                <button class="btn btn-sm btn-warning btn-action" onclick="editAnggota(${row.id})" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger btn-action" onclick="confirmDelete(${row.id})" title="Hapus">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            `;
+                        }
+                    }
+                ]
+            });
+            
+            // Real-time search
+            $('#searchInput').on('keyup', function() {
+                table.search(this.value).draw();
+            });
+            
+            // Status filter
+            $('#statusFilter').on('change', function() {
+                const status = $(this).val();
+                if (status) {
+                    table.column(4).search(status === 'aktif' ? '^Aktif$' : '^Nonaktif$', true, false).draw();
+                } else {
+                    table.column(4).search('').draw();
+                }
+            });
+        });
+        
+        function applyFilters() {
+            table.draw();
+        }
+        
+        function resetFilters() {
+            $('#searchInput').val('');
+            $('#statusFilter').val('');
+            table.search('').columns().search('').draw();
+        }
+        
+        function resetForm() {
+            $('#anggotaForm')[0].reset();
+            $('#anggotaId').val('');
+            $('#anggotaModalLabel').text('Tambah Anggota');
+            $('#anggotaForm').removeClass('was-validated');
+        }
+        
+        function editAnggota(id) {
+            const anggota = anggotaData.find(a => a.id === id);
+            if (anggota) {
+                $('#anggotaId').val(anggota.id);
+                $('#nama').val(anggota.nama);
+                $('#email').val(anggota.email);
+                $('#noHp').val(anggota.noHp);
+                $('#status').val(anggota.status);
+                $('#anggotaModalLabel').text('Edit Anggota');
+                $('#anggotaModal').modal('show');
+            }
+        }
+        
+        function saveAnggota() {
+            const form = $('#anggotaForm')[0];
+            
+            // Validate form
+            if (!form.checkValidity()) {
+                form.classList.add('was-validated');
+                return;
+            }
+            
+            const id = $('#anggotaId').val();
+            const nama = $('#nama').val();
+            const email = $('#email').val();
+            const noHp = $('#noHp').val();
+            const status = $('#status').val();
+            
+            // Validate email uniqueness
+            const existingEmail = anggotaData.find(a => a.email === email && a.id != id);
+            if (existingEmail) {
+                $('#email').addClass('is-invalid');
+                return;
+            } else {
+                $('#email').removeClass('is-invalid');
+            }
+            
+            // Validate phone number format
+            const phoneRegex = /^0[0-9]{9,12}$/;
+            if (!phoneRegex.test(noHp)) {
+                $('#noHp').addClass('is-invalid');
+                return;
+            } else {
+                $('#noHp').removeClass('is-invalid');
+            }
+            
+            if (id) {
+                // Update existing
+                const index = anggotaData.findIndex(a => a.id == id);
+                if (index !== -1) {
+                    anggotaData[index] = { id: parseInt(id), nama, email, noHp, status };
+                }
+            } else {
+                // Add new
+                const newId = Math.max(...anggotaData.map(a => a.id), 0) + 1;
+                anggotaData.push({ id: newId, nama, email, noHp, status });
+            }
+            
+            // Refresh table
+            table.clear().rows.add(anggotaData).draw();
+            
+            // Close modal
+            $('#anggotaModal').modal('hide');
+            
+            // Show success message
+            showToast('Data berhasil disimpan!', 'success');
+        }
+        
+        function confirmDelete(id) {
+            deleteId = id;
+            $('#deleteModal').modal('show');
+        }
+        
+        $(document).on('click', '#confirmDeleteBtn', function() {
+            if (deleteId) {
+                anggotaData = anggotaData.filter(a => a.id !== deleteId);
+                table.clear().rows.add(anggotaData).draw();
+                $('#deleteModal').modal('hide');
+                showToast('Data berhasil dihapus!', 'success');
+                deleteId = null;
+            }
+        });
+        
+        function showToast(message, type) {
+            const toastHtml = `
+                <div class="toast align-items-center text-white bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            ${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            `;
+            
+            const toastContainer = $('.toast-container').length 
+                ? $('.toast-container') 
+                : $('<div class="toast-container position-fixed bottom-0 end-0 p-3"></div>').appendTo('body');
+            
+            const $toast = $(toastHtml);
+            toastContainer.append($toast);
+            
+            const toast = new bootstrap.Toast($toast[0]);
+            toast.show();
+            
+            $toast.on('hidden.bs.toast', function() {
+                $(this).remove();
+            });
+        }
+    </script>
+</body>
+</html>
