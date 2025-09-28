@@ -1,0 +1,108 @@
+
+## 1. **Setup Project**
+
+* [ ] Buat project frontend (React / Vue / Svelte / Next.js / Nuxt)
+* [ ] Setup routing / navigasi halaman
+* [ ] Integrasi library UI (Tailwind, Bootstrap, atau Material UI)
+* [ ] Setup state management (Redux, Pinia, Context API) jika perlu
+
+---
+
+## 2. **Halaman Autentikasi**
+
+* [ ] **Login Page** → input email & password
+* [ ] Validasi form (required, email format)
+* [ ] Redirect sesuai role (Admin / Bendahara / Anggota)
+* [ ] Logout button
+
+---
+
+## 3. **Dashboard**
+
+* [ ] Tampilkan ringkasan:
+
+  * Total anggota aktif
+  * Total inventaris & barang tersedia
+  * Saldo kas
+* [ ] Grafik kas bulanan (Chart.js / ECharts)
+* [ ] Notifikasi barang yang dipinjam belum dikembalikan
+
+---
+
+## 4. **Manajemen Anggota**
+
+* [ ] Tabel anggota (DataTables / TanStack Table)
+* [ ] Fitur CRUD: tambah, edit, hapus anggota
+* [ ] Status anggota aktif/nonaktif
+* [ ] Pencarian & filter anggota
+* [ ] Validasi form (email unik, no_hp)
+
+---
+
+## 5. **Inventaris**
+
+* [ ] Tabel inventaris dengan jumlah tersedia & kondisi
+* [ ] CRUD inventaris (tambah, edit, hapus barang)
+* [ ] Pilih kategori dari dropdown
+* [ ] Filter inventaris berdasarkan kategori / lokasi / kondisi
+
+---
+
+## 6. **Peminjaman Inventaris**
+
+* [ ] Form peminjaman: pilih barang + jumlah + tanggal pinjam
+* [ ] Tabel history peminjaman: barang, peminjam, tanggal pinjam, tanggal kembali, status
+* [ ] Indikator status: dipinjam / dikembalikan
+* [ ] Button kembalikan barang (update tanggal_kembali + status)
+
+---
+
+## 7. **Kas / Keuangan**
+
+* [ ] Form input transaksi kas:
+
+  * Jenis: pemasukan / pengeluaran
+  * Jumlah, kategori, keterangan
+* [ ] Tabel riwayat transaksi kas
+* [ ] Filter transaksi: tanggal, jenis, kategori
+* [ ] Hitung saldo akhir secara real-time
+* [ ] Grafik kas bulanan (opsional)
+
+---
+
+## 8. **Kategori**
+
+* [ ] CRUD kategori inventaris
+* [ ] CRUD kategori kas
+* [ ] Pilihan dropdown pada form inventaris & kas
+
+---
+
+## 9. **Profil User**
+
+* [ ] Halaman profil user: tampilkan data diri
+* [ ] Edit profil: nama, alamat, no_hp
+* [ ] Ganti password
+
+---
+
+## 10. **UX & Validasi**
+
+* [ ] Loading indicator / spinner saat fetch API
+* [ ] Notifikasi sukses / error (toast)
+* [ ] Validasi semua form sebelum submit
+* [ ] Responsif untuk mobile & tablet
+
+---
+
+## 11. **Opsional (Tingkat Lanjut)**
+
+* [ ] Export data anggota / inventaris / kas ke Excel / PDF
+* [ ] Pencarian global / filter lanjutan
+* [ ] Dashboard interaktif (drag & drop widget, grafik dinamis)
+
+---
+
+Kalau mau, saya bisa buatkan **versi visual roadmap frontend** dalam bentuk **kanban-style todo list**, biar tim tinggal ceklist tiap task sambil develop.
+
+Mau saya buatkan versi itu juga?
